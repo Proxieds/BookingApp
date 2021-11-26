@@ -1,0 +1,30 @@
+version: "3.1"
+
+services:
+  db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: Bookstore
+    ports:
+      - 3306:3306
+    volumes:
+      - dbVolume:/var/lib/mysql
+
+  web:
+    image: assignment1
+    restart: always
+    environment:
+      DATABASE_NAME: Bookstore
+      DATABASE_USER: root
+      DATABASE_PASSWORD: admin
+      DATABASE_HOST: db
+      DATABASE_PORT: 3306
+    ports:
+      - 80:80
+    depends_on:
+      - db
+
+volumes:
+  dbVolume:
